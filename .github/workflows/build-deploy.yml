@@ -1,0 +1,42 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: get-npm-version
+      id: package-version
+      uses: martinbeentjes/npm-get-version-action@master
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+    - name: Login to DockerHub
+      uses: docker/login-action@v1 
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build and push
+      id: docker_build
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: pknndev/sidedesk-serverside:${{ steps.package-version.outputs.current-version}}
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: ssh-pipeline
+      uses: cross-the-world/ssh-pipeline@v1.2.0
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        user: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          cd sidedesk
+          docker-compose down
+          sed -i -r "s/(pknndev\/sidedesk-serverside):[0-9]+.[0-9]+.[0-9]+/\1:${{ steps.package-version.outputs.current-version}}/" docker-compose.yml
+          docker-compose pull
+          docker-compose up
