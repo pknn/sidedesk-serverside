@@ -1,5 +1,6 @@
 import { expect } from 'chai'
-import * as VersionUseCase from '.'
+
+import * as VersionUseCase from '../../src/useCases/Version'
 
 describe('Version Use Case', () => {
   describe('getVersion()', () => {
