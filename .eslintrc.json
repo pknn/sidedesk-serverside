@@ -19,5 +19,17 @@
     ],
     "rules": {
         "prettier/prettier": 2
+    },
+    "overrides": [
+        {
+            "files": [
+                "src/presenters/*.ts",
+                "src/bodies/*.ts",
+                "src/types/Express.ts"
+            ],
+            "rules": {
+                "camelcase": 0
+        }
     }
+]
 }
