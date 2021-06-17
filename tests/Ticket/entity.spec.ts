@@ -3,12 +3,12 @@ import { getConnection } from 'typeorm'
 
 import { initializeTypeOrm } from '../../src/applications/typeorm'
 import { Ticket, toModel } from '../../src/entities/Ticket'
-import { getMockDescription, getMockTicket } from './entity.mock'
+import { getMockDescription, getMockEntity } from './ticket.mock'
 
 describe('Ticket Entity', () => {
   describe('contructor()', () => {
     it('should get new Ticket entity with correct information', () => {
-      const mockTicket = getMockTicket()
+      const mockTicket = getMockEntity()
       const ticket = new Ticket(
         mockTicket.title,
         mockTicket.description,
@@ -35,7 +35,7 @@ describe('Ticket Entity', () => {
 
   describe('toModel()', () => {
     it('should return correct Ticket model', () => {
-      const ticketEntity = getMockTicket()
+      const ticketEntity = getMockEntity()
       const ticketModel = toModel(ticketEntity)
 
       expect(ticketModel).to.be.an('object')
@@ -67,7 +67,7 @@ describe('Ticket Entity', () => {
     })
 
     beforeEach(async () => {
-      mockTicket = await getMockTicket().save()
+      mockTicket = await getMockEntity().save()
     })
 
     afterEach(async () => {
@@ -76,7 +76,7 @@ describe('Ticket Entity', () => {
 
     describe('Create Ticket', () => {
       it('should create the correct record to the database', async () => {
-        const newTicket = getMockTicket()
+        const newTicket = getMockEntity()
         const savedTicket = await newTicket.save()
 
         const rowCount = await Ticket.createQueryBuilder().getCount()
