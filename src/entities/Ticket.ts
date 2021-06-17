@@ -14,7 +14,7 @@ export type TicketStatus = 'pending' | 'accepted' | 'resolved' | 'rejected'
 @Entity()
 export class Ticket extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id!: number
+  id?: number
 
   @Column()
   title: string
@@ -42,6 +42,7 @@ export class Ticket extends BaseEntity {
     description: string,
     reporterName: string,
     reporterEmail?: string,
+    id?: number,
   ) {
     super()
     this.title = title
@@ -49,6 +50,7 @@ export class Ticket extends BaseEntity {
     this.reporterName = reporterName
     this.reporterEmail = reporterEmail
     this.status = 'pending'
+    this.id = id
   }
 
   async update(updateInfo: Partial<Ticket>): Promise<Ticket> {
@@ -60,7 +62,7 @@ export class Ticket extends BaseEntity {
 }
 
 export const toModel = (ticket: Ticket): TicketModel => ({
-  id: ticket.id,
+  id: ticket.id!,
   title: ticket.title,
   description: ticket.description,
   reporterName: ticket.reporterName,
