@@ -23,7 +23,8 @@
     "overrides": [
         {
             "files": [
-                "src/presenters/*.ts"
+                "src/presenters/*.ts",
+                "src/bodies/*.ts"
             ],
             "rules": {
                 "camelcase": 0

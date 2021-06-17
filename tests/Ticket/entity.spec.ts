@@ -49,6 +49,8 @@ describe('Ticket Entity', () => {
       expect(ticketModel.reporterName).to.equal(ticketEntity.reporterName)
       expect(ticketModel).to.have.property('reporterEmail')
       expect(ticketModel.reporterEmail).to.equal(ticketEntity.reporterEmail)
+      expect(ticketModel).to.have.property('status')
+      expect(ticketModel.status).to.equal(ticketEntity.status)
       expect(ticketModel).to.have.property('createdAt')
       expect(ticketModel.createdAt).to.equal(ticketEntity.createdAt)
       expect(ticketModel).to.have.property('updatedAt')

@@ -3,6 +3,7 @@ import faker from 'faker'
 import { TicketStatus } from '../../src/types/TicketStatus'
 import { Ticket as TicketEntity } from '../../src/entities/Ticket'
 import { Ticket as TicketModel } from '../../src/models/Ticket'
+import { TicketCreationJsonBody } from '../../src/bodies/Ticket'
 
 export const ticketStatusOptions: TicketStatus[] = [
   'pending',
@@ -30,4 +31,11 @@ export const getMockModel = (): TicketModel => ({
   status: faker.random.arrayElement(ticketStatusOptions),
   createdAt: faker.date.future(),
   updatedAt: faker.date.future(),
+})
+
+export const getMockCreationBody = (): TicketCreationJsonBody => ({
+  title: faker.lorem.sentence(5),
+  description: faker.lorem.sentences(50),
+  reporter_name: faker.name.firstName(),
+  reporter_email: faker.internet.email(),
 })
