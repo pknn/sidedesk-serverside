@@ -37,8 +37,7 @@ describe('Ticket Use Case', () => {
 
   describe('getTicket(id)', () => {
     it('should return Ticket entity with specified ID', async () => {
-      const randomIndex = faker.datatype.number(mockEntities.length - 1)
-      const randomItem = mockEntities[randomIndex] as TicketEntity
+      const randomItem = faker.random.arrayElement(mockEntities)
 
       const result = await TicketUseCase.getTicket(randomItem.id!)
 
@@ -168,8 +167,7 @@ describe('Ticket Use Case', () => {
 
   describe('update(id, body)', () => {
     it('should update a Ticket specified by ID from receive body', async () => {
-      const randomIndex = faker.datatype.number(mockEntities.length - 1)
-      const randomItem = mockEntities[randomIndex] as TicketEntity
+      const randomItem = faker.random.arrayElement(mockEntities)
       const updatedItem = {
         ...randomItem,
         status: TicketStatus.rejected,
