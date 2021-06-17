@@ -1,7 +1,8 @@
 import faker from 'faker'
 
+import { TicketStatus } from '../../src/types/TicketStatus'
 import { Ticket as TicketEntity } from '../../src/entities/Ticket'
-import { Ticket as TicketModel, TicketStatus } from '../../src/models/Ticket'
+import { Ticket as TicketModel } from '../../src/models/Ticket'
 
 export const ticketStatusOptions: TicketStatus[] = [
   'pending',
