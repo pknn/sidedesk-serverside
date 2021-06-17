@@ -15,20 +15,33 @@ export class Ticket extends BaseEntity {
   id!: number
 
   @Column()
-  title!: string
+  title: string
 
   @Column()
-  description!: string
+  description: string
 
   @Column()
-  contactInformation!: string
+  contactInformation: string
 
   @Column()
-  status!: TicketStatus
+  status: TicketStatus
 
   @CreateDateColumn()
   createdAt!: Date
 
   @UpdateDateColumn()
   updatedAt!: Date
+
+  constructor(
+    title: string,
+    description: string,
+    contactInformation: string,
+    status: TicketStatus,
+  ) {
+    super()
+    this.title = title
+    this.description = description
+    this.contactInformation = contactInformation
+    this.status = status
+  }
 }
