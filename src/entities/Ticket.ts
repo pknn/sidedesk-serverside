@@ -50,6 +50,13 @@ export class Ticket extends BaseEntity {
     this.reporterEmail = reporterEmail
     this.status = 'pending'
   }
+
+  async update(updateInfo: Partial<Ticket>): Promise<Ticket> {
+    return Ticket.save({
+      ...this,
+      ...updateInfo,
+    })
+  }
 }
 
 export const toModel = (ticket: Ticket): TicketModel => ({
