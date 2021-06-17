@@ -1,3 +1,4 @@
+import { TicketPresenter } from 'app/presenters/Ticket'
 import { TicketStatus } from 'app/types/TicketStatus'
 
 export interface Ticket {
@@ -11,4 +12,13 @@ export interface Ticket {
   updatedAt: Date
 }
 
-export const toPresenter = (ticket: Ticket): TicketPresenter => ({})
+export const toPresenter = (ticket: Ticket): TicketPresenter => ({
+  id: ticket.id,
+  title: ticket.title,
+  description: ticket.description,
+  reporter_name: ticket.reporterName,
+  reporter_email: ticket.reporterEmail,
+  status: ticket.status,
+  created_at: ticket.createdAt,
+  updated_at: ticket.updatedAt,
+})
