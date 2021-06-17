@@ -6,10 +6,10 @@ import { Ticket as TicketModel } from '../../src/models/Ticket'
 import { TicketCreationJsonBody } from '../../src/bodies/Ticket'
 
 export const ticketStatusOptions: TicketStatus[] = [
-  'pending',
-  'accepted',
-  'resolved',
-  'rejected',
+  TicketStatus.pending,
+  TicketStatus.accepted,
+  TicketStatus.resolved,
+  TicketStatus.rejected,
 ]
 
 export const getMockDescription = () => faker.lorem.sentences(50)
@@ -21,6 +21,16 @@ export const getMockEntity = (): TicketEntity =>
     faker.name.firstName(),
     faker.internet.email(),
   )
+
+export const getBulkMockEntity = (n: number = 10): TicketEntity[] => {
+  const result = []
+  for (let i = 0; i < n; i += 1) {
+    const mockEntity = getMockEntity()
+    mockEntity.status = faker.random.arrayElement(ticketStatusOptions)
+    result.push(mockEntity)
+  }
+  return result
+}
 
 export const getMockModel = (): TicketModel => ({
   id: faker.datatype.number(),

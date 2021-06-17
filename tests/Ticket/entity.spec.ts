@@ -3,6 +3,7 @@ import { getConnection } from 'typeorm'
 
 import { initializeTypeOrm } from '../../src/applications/typeorm'
 import { Ticket, toModel } from '../../src/entities/Ticket'
+import { TicketStatus } from '../../src/types/TicketStatus'
 import { getMockDescription, getMockEntity } from './ticket.mock'
 
 describe('Ticket Entity', () => {
@@ -100,7 +101,7 @@ describe('Ticket Entity', () => {
       it('should update the ticket to the database', async () => {
         const updatingInfo: Partial<Ticket> = {
           description: getMockDescription(),
-          status: 'accepted',
+          status: TicketStatus.accepted,
         }
         const updatedTicket = await mockTicket.update(updatingInfo)
 

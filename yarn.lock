@@ -642,6 +642,13 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
+chai-exclude@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/chai-exclude/-/chai-exclude-2.0.3.tgz#38c159a5e098971b795cafd492d48ae58d651a23"
+  integrity sha512-6VuTQX25rsh4hKPdLzsOtL20k9+tszksLQrLtsu6szTmSVJP9+gUkqYUsyM+xqCeGZKeRJCsamCMRUQJhWsQ+g==
+  dependencies:
+    fclone "^1.0.11"
+
 chai@^4.3.4:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/chai/-/chai-4.3.4.tgz#b55e655b31e1eac7099be4c08c21964fce2e6c49"
@@ -1424,6 +1431,11 @@ fastq@^1.6.0:
   integrity sha512-7Eczs8gIPDrVzT+EksYBcupqMyxSHXXrHOLRRxU2/DicV8789MRBRR8+Hc2uWzUupOs4YS4JzBmBxjjCVBxD/g==
   dependencies:
     reusify "^1.0.4"
+
+fclone@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/fclone/-/fclone-1.0.11.tgz#10e85da38bfea7fc599341c296ee1d77266ee640"
+  integrity sha1-EOhdo4v+p/xZk0HClu4ddyZu5kA=
 
 figlet@^1.1.1:
   version "1.5.0"

@@ -1,26 +1,157 @@
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
+import chaiExclude from 'chai-exclude'
+
+import faker from 'faker'
+import { getConnection } from 'typeorm'
+
+import { getBulkMockEntity } from './ticket.mock'
+import { initializeTypeOrm } from '../../src/applications/typeorm'
+import { Ticket as TicketEntity } from '../../src/entities/Ticket'
+import * as TicketUseCase from '../../src/useCases/Ticket'
+import { TicketStatus } from '../../src/types/TicketStatus'
+
+chai.use(chaiExclude)
 
 describe('Ticket Use Case', () => {
-  describe('getTicket(id)', () => {
-    it('should return Ticket entity with specified ID', () => {})
+  let mockEntities: TicketEntity[]
+  before(async () => {
+    await initializeTypeOrm()
   })
+
+  beforeEach(async () => {
+    mockEntities = await TicketEntity.save(getBulkMockEntity(100))
+  })
+
+  afterEach(async () => {
+    await TicketEntity.query('DELETE from ticket')
+  })
+
+  after(async () => {
+    await getConnection().close()
+  })
+
+  describe('getTicket(id)', () => {
+    it('should return Ticket entity with specified ID', async () => {
+      const randomIndex = faker.datatype.number(mockEntities.length - 1)
+      const randomItem = mockEntities[randomIndex] as TicketEntity
+
+      const result = await TicketUseCase.getTicket(randomItem.id!)
+
+      expect(result)
+        .excluding(['createdAt', 'updatedAt'])
+        .to.deep.equal(randomItem)
+    })
+  })
+
   describe('getTickets(options?)', () => {
     describe('when offset option was provided', () => {
-      it('should return Tickets with specified offseted from start with limit of 50 ascending ordered by Created Date', () => {})
+      it('should return Tickets with specified offseted from start', async () => {
+        const result = await TicketUseCase.getTickets({
+          offset: 10,
+        })
+
+        expect(result[0])
+          .excluding(['createdAt', 'updatedAt'])
+          .to.deep.equal(mockEntities[10])
+      })
     })
     describe('when limit option was provided', () => {
-      it('should return Tickets from the start with specified limit ascending ordered by Created Date', () => {})
+      it('should return Tickets with specified limit', async () => {
+        const result = await TicketUseCase.getTickets({
+          limit: 10,
+        })
+
+        expect(result).to.have.lengthOf(10)
+      })
     })
     describe('when sorting option was provided', () => {
-      it('should return Tickets from the start with limit of 50 and specified ordering strategy', () => {})
+      describe('when sort with status', () => {
+        it('should return Tickets with status ordered descending', async () => {
+          const randomIndex = faker.datatype.number(9)
+          const result = await TicketUseCase.getTickets({
+            limit: 10,
+            sorting: {
+              sortBy: 'status',
+              strategy: 'DESC',
+            },
+          })
+          const randomItemA = result[randomIndex] as TicketEntity
+          const randomItemB = result[randomIndex + 1] as TicketEntity
+
+          expect(randomItemA.status).to.be.greaterThanOrEqual(
+            randomItemB.status,
+          )
+        })
+        it('should return Tickets with status ordered ascending', async () => {
+          const randomIndex = faker.datatype.number(9)
+          const result = await TicketUseCase.getTickets({
+            limit: 10,
+            sorting: {
+              sortBy: 'status',
+              strategy: 'ASC',
+            },
+          })
+          const randomItemA = result[randomIndex] as TicketEntity
+          const randomItemB = result[randomIndex + 1] as TicketEntity
+
+          expect(randomItemA.status).to.be.lessThanOrEqual(randomItemB.status)
+        })
+      })
+
+      describe('when sort with createdAt', () => {
+        it('should return Tickets with createdAt ordered', () => {
+          it('should return Tickets with createdAt ordered descending', async () => {
+            const randomIndex = faker.datatype.number(9)
+            const result = await TicketUseCase.getTickets({
+              limit: 10,
+              sorting: {
+                sortBy: 'createdAt',
+                strategy: 'DESC',
+              },
+            })
+            const randomItemA = result[randomIndex] as TicketEntity
+            const randomItemB = result[randomIndex + 1] as TicketEntity
+
+            expect(randomItemA.createdAt).to.be.greaterThanOrEqual(
+              randomItemB.createdAt,
+            )
+          })
+          it('should return Tickets with createdAt ordered descending', async () => {
+            const randomIndex = faker.datatype.number(9)
+            const result = await TicketUseCase.getTickets({
+              limit: 10,
+              sorting: {
+                sortBy: 'createdAt',
+                strategy: 'DESC',
+              },
+            })
+            const randomItemA = result[randomIndex] as TicketEntity
+            const randomItemB = result[randomIndex + 1] as TicketEntity
+
+            expect(randomItemA.createdAt).to.be.greaterThanOrEqual(
+              randomItemB.createdAt,
+            )
+          })
+        })
+      })
     })
     describe('when status option was provided', () => {
-      it('should return Tickets from the start with limit of 50 ascending ordered by Created Date and applied filter', () => {})
+      it('should return Tickets with applied filter', async () => {
+        const result = await TicketUseCase.getTickets({
+          status: TicketStatus.resolved,
+        })
+
+        expect(result).to.satisfy((entries: TicketEntity[]) =>
+          entries.every((entry) => entry.status === TicketStatus.resolved),
+        )
+      })
     })
   })
+
   describe('create(body)', () => {
     it('should create a new Ticket entity from received creation body', () => {})
   })
+
   describe('update(id, body)', () => {
     it('should update a Ticket specified by ID from receive body', () => {})
   })

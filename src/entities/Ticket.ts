@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   BaseEntity,
   Column,
@@ -8,7 +9,13 @@ import {
 } from 'typeorm'
 
 import { Ticket as TicketModel } from 'app/models/Ticket'
-import { TicketStatus } from 'app/types/TicketStatus'
+
+enum TicketStatus {
+  pending,
+  accepted,
+  resolved,
+  rejected,
+}
 
 @Entity()
 export class Ticket extends BaseEntity {
@@ -48,7 +55,7 @@ export class Ticket extends BaseEntity {
     this.description = description
     this.reporterName = reporterName
     this.reporterEmail = reporterEmail
-    this.status = 'pending'
+    this.status = TicketStatus.pending
     this.id = id
   }
 

@@ -19,7 +19,7 @@ export const getTickets = async (
     offset: 0,
     limit: 50,
     sorting: {
-      sortBy: 'created_at',
+      sortBy: 'createdAt',
       strategy: 'ASC',
     },
     ...overrideOptions,
