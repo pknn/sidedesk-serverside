@@ -21,7 +21,10 @@ export class Ticket extends BaseEntity {
   description: string
 
   @Column()
-  contactInformation: string
+  reporterName: string
+
+  @Column()
+  reporterEmail?: string
 
   @Column()
   status: TicketStatus
@@ -35,13 +38,14 @@ export class Ticket extends BaseEntity {
   constructor(
     title: string,
     description: string,
-    contactInformation: string,
-    status: TicketStatus,
+    reporterName: string,
+    reporterEmail?: string,
   ) {
     super()
     this.title = title
     this.description = description
-    this.contactInformation = contactInformation
-    this.status = status
+    this.reporterName = reporterName
+    this.reporterEmail = reporterEmail
+    this.status = 'pending'
   }
 }
