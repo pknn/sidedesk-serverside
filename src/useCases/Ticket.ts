@@ -13,22 +13,22 @@ export const getTicket = async (id: number): Promise<Ticket> => {
 }
 
 export const getTickets = async (
-  overrideOptions?: TicketQueryOption,
+  overrideOptions: Partial<TicketQueryOption>,
 ): Promise<Ticket[]> => {
   const option: TicketQueryOption = {
-    offset: 0,
-    limit: 50,
-    sorting: {
+    offset: overrideOptions.offset || 0,
+    limit: overrideOptions.limit || 50,
+    sorting: overrideOptions.sorting || {
       sortBy: 'createdAt',
       strategy: 'ASC',
     },
-    ...overrideOptions,
+    status: overrideOptions.status,
   }
 
   const baseQuery = TicketEntity.createQueryBuilder()
     .offset(option.offset!)
     .limit(option.limit)
-    .orderBy(option.sorting!.sortBy, option.sorting!.strategy)
+    .orderBy(option.sorting!.sortBy!, option.sorting!.strategy)
 
   const finalQuery = option.status
     ? await baseQuery.where({ status: option.status }).getMany()
