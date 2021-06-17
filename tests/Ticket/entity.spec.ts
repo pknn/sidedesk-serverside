@@ -59,7 +59,7 @@ describe('Ticket Entity', () => {
   })
 
   describe('Entity Operations', () => {
-    const mockTicket: Ticket = getMockEntity()
+    let mockTicket: Ticket
     before(async () => {
       await initializeTypeOrm()
     })
@@ -69,7 +69,7 @@ describe('Ticket Entity', () => {
     })
 
     beforeEach(async () => {
-      await mockTicket.save()
+      mockTicket = await getMockEntity().save()
     })
 
     afterEach(async () => {
