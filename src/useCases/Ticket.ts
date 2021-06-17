@@ -44,4 +44,7 @@ export const create = async (
 export const update = async (
   id: number,
   ticketUpdateBody: TicketUpdateJsonBody,
-): Promise<any> => await TicketEntity.update(id, ticketUpdateBody)
+): Promise<Ticket> => {
+  await TicketEntity.update(id, ticketUpdateBody)
+  return getTicket(id)
+}
