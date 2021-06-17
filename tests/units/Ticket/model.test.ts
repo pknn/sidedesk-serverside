@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
-import { Ticket, toPresenter } from '../../src/models/Ticket'
-import { getMockModel } from './ticket.mock'
+import { Ticket, toPresenter } from '../../../src/models/Ticket'
+import { getMockModel } from '../../helpers/ticket.mock'
 
 describe('Ticker Model', () => {
   describe('toPresenter()', () => {

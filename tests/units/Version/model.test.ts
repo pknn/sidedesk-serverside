@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 
-import { Version, toPresenter } from '../../src/models/Version'
+import { Version, toPresenter } from '../../../src/models/Version'
 
 describe('Version Model', () => {
   describe('toPresenter()', () => {

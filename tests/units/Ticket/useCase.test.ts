@@ -8,12 +8,12 @@ import {
   getBulkMockEntity,
   getMockCreationBody,
   getMockDescription,
-} from './ticket.mock'
-import { initializeTypeOrm } from '../../src/applications/typeorm'
-import { Ticket as TicketEntity } from '../../src/entities/Ticket'
-import * as TicketUseCase from '../../src/useCases/Ticket'
-import { TicketStatus } from '../../src/types/TicketStatus'
-import { toEntity } from '../../src/bodies/Ticket'
+} from '../../helpers/ticket.mock'
+import { initializeTypeOrm } from '../../../src/applications/typeorm'
+import { Ticket as TicketEntity } from '../../../src/entities/Ticket'
+import * as TicketUseCase from '../../../src/useCases/Ticket'
+import { TicketStatus } from '../../../src/types/TicketStatus'
+import { toEntity } from '../../../src/bodies/Ticket'
 
 chai.use(chaiExclude)
 
@@ -72,7 +72,7 @@ describe('Ticket Use Case', () => {
     describe('when sorting option was provided', () => {
       describe('when sort with status', () => {
         it('should return Tickets with status ordered descending', async () => {
-          const randomIndex = faker.datatype.number(9)
+          const randomIndex = faker.datatype.number(8)
           const result = await TicketUseCase.getTickets({
             limit: 10,
             sorting: {
@@ -88,7 +88,7 @@ describe('Ticket Use Case', () => {
           )
         })
         it('should return Tickets with status ordered ascending', async () => {
-          const randomIndex = faker.datatype.number(9)
+          const randomIndex = faker.datatype.number(8)
           const result = await TicketUseCase.getTickets({
             limit: 10,
             sorting: {
@@ -106,7 +106,7 @@ describe('Ticket Use Case', () => {
       describe('when sort with createdAt', () => {
         it('should return Tickets with createdAt ordered', () => {
           it('should return Tickets with createdAt ordered descending', async () => {
-            const randomIndex = faker.datatype.number(9)
+            const randomIndex = faker.datatype.number(8)
             const result = await TicketUseCase.getTickets({
               limit: 10,
               sorting: {
@@ -122,7 +122,7 @@ describe('Ticket Use Case', () => {
             )
           })
           it('should return Tickets with createdAt ordered descending', async () => {
-            const randomIndex = faker.datatype.number(9)
+            const randomIndex = faker.datatype.number(8)
             const result = await TicketUseCase.getTickets({
               limit: 10,
               sorting: {

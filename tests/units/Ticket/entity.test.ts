@@ -1,10 +1,10 @@
 import { expect } from 'chai'
 import { getConnection } from 'typeorm'
 
-import { initializeTypeOrm } from '../../src/applications/typeorm'
-import { Ticket, toModel } from '../../src/entities/Ticket'
-import { TicketStatus } from '../../src/types/TicketStatus'
-import { getMockDescription, getMockEntity } from './ticket.mock'
+import { initializeTypeOrm } from '../../../src/applications/typeorm'
+import { Ticket, toModel } from '../../../src/entities/Ticket'
+import { TicketStatus } from '../../../src/types/TicketStatus'
+import { getMockDescription, getMockEntity } from '../../helpers/ticket.mock'
 
 describe('Ticket Entity', () => {
   describe('contructor()', () => {

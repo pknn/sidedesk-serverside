@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
-import { getMockCreationBody } from './ticket.mock'
-import { TicketCreationJsonBody, toEntity } from '../../src/bodies/Ticket'
+import { getMockCreationBody } from '../../helpers/ticket.mock'
+import { TicketCreationJsonBody, toEntity } from '../../../src/bodies/Ticket'
 
 describe('Ticket Bodies', () => {
   describe('TicketCreationJsonBody', () => {

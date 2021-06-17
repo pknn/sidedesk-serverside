@@ -10,6 +10,7 @@ import {
   UpdateRequestType,
 } from 'app/types/Express'
 import { TicketCreationJsonBody, TicketUpdateJsonBody } from 'app/bodies/Ticket'
+import { EntityNotFoundError } from 'typeorm'
 
 export const get = async (request: Request, response: Response) => {
   const { id } = request.params
@@ -21,8 +22,12 @@ export const get = async (request: Request, response: Response) => {
     const ticket = await TicketUseCase.getTicket(idNumber)
     return response.json(toPresenter(ticket))
   } catch (error) {
-    Consola.error(error)
-    return response.sendStatus(500)
+    if (error instanceof EntityNotFoundError) {
+      return response.sendStatus(404)
+    } else {
+      Consola.error(error)
+      return response.sendStatus(500)
+    }
   }
 }
 
