@@ -4,11 +4,16 @@ import chaiExclude from 'chai-exclude'
 import faker from 'faker'
 import { getConnection } from 'typeorm'
 
-import { getBulkMockEntity } from './ticket.mock'
+import {
+  getBulkMockEntity,
+  getMockCreationBody,
+  getMockDescription,
+} from './ticket.mock'
 import { initializeTypeOrm } from '../../src/applications/typeorm'
 import { Ticket as TicketEntity } from '../../src/entities/Ticket'
 import * as TicketUseCase from '../../src/useCases/Ticket'
 import { TicketStatus } from '../../src/types/TicketStatus'
+import { toEntity } from '../../src/bodies/Ticket'
 
 chai.use(chaiExclude)
 
@@ -135,6 +140,7 @@ describe('Ticket Use Case', () => {
         })
       })
     })
+
     describe('when status option was provided', () => {
       it('should return Tickets with applied filter', async () => {
         const result = await TicketUseCase.getTickets({
@@ -149,10 +155,33 @@ describe('Ticket Use Case', () => {
   })
 
   describe('create(body)', () => {
-    it('should create a new Ticket entity from received creation body', () => {})
+    it('should create a new Ticket entity from received creation body', async () => {
+      const mockCreationBody = getMockCreationBody()
+      const ticketEntityFromBody = toEntity(mockCreationBody)
+      const result = await TicketUseCase.create(mockCreationBody)
+
+      expect(result)
+        .excluding(['createdAt', 'updatedAt', 'id'])
+        .to.deep.equal(ticketEntityFromBody)
+    })
   })
 
   describe('update(id, body)', () => {
-    it('should update a Ticket specified by ID from receive body', () => {})
+    it('should update a Ticket specified by ID from receive body', async () => {
+      const randomIndex = faker.datatype.number(mockEntities.length - 1)
+      const randomItem = mockEntities[randomIndex] as TicketEntity
+      const updatedItem = {
+        ...randomItem,
+        status: TicketStatus.rejected,
+        description: getMockDescription(),
+      }
+      await TicketUseCase.update(updatedItem.id!, updatedItem)
+
+      const result = await TicketUseCase.getTicket(updatedItem.id!)
+
+      expect(result)
+        .excluding(['createdAt', 'updatedAt'])
+        .to.deep.equal(updatedItem)
+    })
   })
 })
