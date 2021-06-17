@@ -17,6 +17,7 @@ describe('Ticket Entity', () => {
         )
 
         expect(ticket).to.be.an('object')
+        expect(ticket).to.have.property('id')
         expect(ticket.title).to.be.a('string')
         expect(ticket.title).to.equal(mockTicket.title)
         expect(ticket.description).to.be.a('string')
@@ -25,6 +26,8 @@ describe('Ticket Entity', () => {
         expect(ticket.reporterName).to.equal(mockTicket.reporterName)
         expect(ticket.reporterEmail).to.be.a('string')
         expect(ticket.reporterEmail).to.equal(mockTicket.reporterEmail)
+        expect(ticket).to.have.property('createdAt')
+        expect(ticket).to.have.property('updatedAt')
       })
     })
     describe('when reporterEmail is NOT defined', () => {
@@ -37,6 +40,7 @@ describe('Ticket Entity', () => {
         )
 
         expect(ticket).to.be.an('object')
+        expect(ticket).to.have.property('id')
         expect(ticket.title).to.be.a('string')
         expect(ticket.title).to.equal(mockTicket.title)
         expect(ticket.description).to.be.a('string')
@@ -45,6 +49,8 @@ describe('Ticket Entity', () => {
         expect(ticket.reporterName).to.equal(mockTicket.reporterName)
         expect(ticket.reporterEmail).to.be.an('undefined')
         expect(ticket.reporterEmail).to.equal(mockTicket.reporterEmail)
+        expect(ticket).to.have.property('createdAt')
+        expect(ticket).to.have.property('updatedAt')
       })
     })
   })

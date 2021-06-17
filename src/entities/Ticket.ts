@@ -7,6 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
+import { Ticket as TicketModel } from 'app/models/Ticket'
+
 export type TicketStatus = 'pending' | 'accepted' | 'resolved' | 'rejected'
 
 @Entity()
@@ -49,3 +51,5 @@ export class Ticket extends BaseEntity {
     this.status = 'pending'
   }
 }
+
+export const toModel = (_: Ticket): TicketModel => ({})
