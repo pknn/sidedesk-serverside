@@ -24,7 +24,8 @@
         {
             "files": [
                 "src/presenters/*.ts",
-                "src/bodies/*.ts"
+                "src/bodies/*.ts",
+                "src/types/Express.ts"
             ],
             "rules": {
                 "camelcase": 0
