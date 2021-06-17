@@ -1,6 +1,6 @@
 {
   "name": "sidedesk-serverside",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Serverside for Sidedesk application",
   "main": "index.ts",
   "repository": "www.github.com/pknn/sidedesk-serverside",
@@ -8,10 +8,12 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "preinstall": "./scripts/hooks-init.sh",
     "prebuild": "rm -rf dist",
     "build": "tsc && tsc-alias",
     "start": "node dist",
     "dev": "NODE_ENV=development ts-node-dev --respawn -r tsconfig-paths/register src/index.ts",
+    "lint": "eslint 'src/**/*.ts'",
     "test": "NODE_ENV=test mocha -r ts-node/register -r tsconfig-paths/register 'tests/**/*.spec.ts'",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
     "migration:generate": "yarn typeorm migration:generate",
