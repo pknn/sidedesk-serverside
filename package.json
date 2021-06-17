@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "preinstall": "./scripts/hooks-init.sh",
+    "preinstall": "[ \"$NODE_ENV\" = production ] && exit 0; ./scripts/hooks-init.sh",
     "prebuild": "rm -rf dist",
     "build": "tsc && tsc-alias",
     "start": "node dist",

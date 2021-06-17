@@ -8,7 +8,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build-test:
+  package-build-test:
 
     runs-on: ubuntu-latest
 
@@ -21,3 +21,10 @@ jobs:
     - run: yarn
     - run: yarn test
     - run: yarn build
+  docker-build:
+  
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build and push
+      uses: docker/build-push-action@v2
