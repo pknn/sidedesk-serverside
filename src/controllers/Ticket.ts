@@ -57,8 +57,8 @@ export const update = async (
 
   const body: TicketUpdateJsonBody = request.body
   try {
-    await TicketUseCase.update(id, body)
-    return response.sendStatus(200)
+    const updatedTicket = await TicketUseCase.update(id, body)
+    return response.json(toPresenter(updatedTicket))
   } catch (error) {
     Consola.error(error)
     return response.sendStatus(400)
