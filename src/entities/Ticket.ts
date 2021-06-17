@@ -8,8 +8,7 @@ import {
 } from 'typeorm'
 
 import { Ticket as TicketModel } from 'app/models/Ticket'
-
-export type TicketStatus = 'pending' | 'accepted' | 'resolved' | 'rejected'
+import { TicketStatus } from 'app/types/TicketStatus'
 
 @Entity()
 export class Ticket extends BaseEntity {

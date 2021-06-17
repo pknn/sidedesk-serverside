@@ -1,4 +1,4 @@
-export type TicketStatus = 'pending' | 'accepted' | 'resolved' | 'rejected'
+import { TicketStatus } from 'app/types/TicketStatus'
 
 export interface Ticket {
   id: number
@@ -10,3 +10,5 @@ export interface Ticket {
   createdAt: Date
   updatedAt: Date
 }
+
+export const toPresenter = (ticket: Ticket): TicketPresenter => ({})
