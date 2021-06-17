@@ -52,4 +52,13 @@ export class Ticket extends BaseEntity {
   }
 }
 
-export const toModel = (_: Ticket): TicketModel => ({})
+export const toModel = (ticket: Ticket): TicketModel => ({
+  id: ticket.id,
+  title: ticket.title,
+  description: ticket.description,
+  reporterName: ticket.reporterName,
+  reporterEmail: ticket.reporterEmail,
+  status: ticket.status,
+  createdAt: ticket.createdAt,
+  updatedAt: ticket.updatedAt,
+})
