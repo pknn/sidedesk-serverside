@@ -25,7 +25,7 @@ export class Ticket extends BaseEntity {
   @Column()
   reporterName: string
 
-  @Column()
+  @Column({ nullable: true })
   reporterEmail?: string
 
   @Column()
