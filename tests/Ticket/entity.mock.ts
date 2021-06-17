@@ -9,3 +9,5 @@ export const getMockTicket = (): Ticket =>
     faker.name.firstName(),
     faker.internet.email(),
   )
+
+export const getMockDescription = () => faker.lorem.sentences(50)

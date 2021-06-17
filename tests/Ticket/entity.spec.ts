@@ -1,8 +1,9 @@
 import { expect } from 'chai'
+import { getConnection } from 'typeorm'
 
-// import { initializeTypeOrm } from '../../src/applications/typeorm'
+import { initializeTypeOrm } from '../../src/applications/typeorm'
 import { Ticket, toModel } from '../../src/entities/Ticket'
-import { getMockTicket } from './entity.mock'
+import { getMockDescription, getMockTicket } from './entity.mock'
 
 describe('Ticket Entity', () => {
   describe('contructor()', () => {
@@ -52,6 +53,58 @@ describe('Ticket Entity', () => {
       expect(ticketModel.createdAt).to.equal(ticketEntity.createdAt)
       expect(ticketModel).to.have.property('updatedAt')
       expect(ticketModel.updatedAt).to.equal(ticketEntity.updatedAt)
+    })
+  })
+
+  describe('Entity Operations', () => {
+    let mockTicket: Ticket
+    before(async () => {
+      await initializeTypeOrm()
+    })
+
+    after(async () => {
+      await getConnection().close()
+    })
+
+    beforeEach(async () => {
+      mockTicket = await getMockTicket().save()
+    })
+
+    afterEach(async () => {
+      await getConnection().query('DELETE from ticket')
+    })
+
+    describe('Create Ticket', () => {
+      it('should create the correct record to the database', async () => {
+        const newTicket = getMockTicket()
+        const savedTicket = await newTicket.save()
+
+        const rowCount = await Ticket.createQueryBuilder().getCount()
+
+        expect(savedTicket).to.deep.equal(newTicket)
+        expect(rowCount).to.equal(2)
+      })
+    })
+
+    describe('Get Ticket', () => {
+      it('should get the correct ticket record from the database', async () => {
+        const result = await Ticket.findOne(mockTicket.id)
+
+        expect(result).to.deep.equal(mockTicket)
+      })
+    })
+
+    describe('Update Ticket', () => {
+      it('should update the ticket to the database', async () => {
+        const updatingInfo: Partial<Ticket> = {
+          description: getMockDescription(),
+          status: 'accepted',
+        }
+        const updatedTicket = await mockTicket.update(updatingInfo)
+
+        expect(updatedTicket.description).to.equal(updatingInfo.description)
+        expect(updatedTicket.status).to.equal(updatedTicket.status)
+      })
     })
   })
 })
