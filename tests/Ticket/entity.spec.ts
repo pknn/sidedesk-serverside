@@ -19,7 +19,7 @@ describe('Ticket Entity', () => {
       expect(ticket).to.have.property('id')
       expect(ticket).to.have.property('title')
       expect(ticket.title).to.equal(mockTicket.title)
-      expect(ticket).to.have.property('descriptiom')
+      expect(ticket).to.have.property('description')
       expect(ticket.description).to.equal(mockTicket.description)
       expect(ticket).to.have.property('reporterName')
       expect(ticket.reporterName).to.equal(mockTicket.reporterName)
