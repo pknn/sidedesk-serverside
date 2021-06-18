@@ -150,6 +150,20 @@ describe('Ticket Use Case', () => {
         )
       })
     })
+
+    describe('when each option was provided', () => {
+      it('should return Ticket from each status within limit', async () => {
+        const result = await TicketUseCase.getTickets({
+          each: 15,
+        })
+
+        ticketStatusOptions.forEach((ticketStatus) => {
+          expect(filteredStatusLength(result, ticketStatus)).to.lessThanOrEqual(
+            15,
+          )
+        })
+      })
+    })
   })
 
   describe('create(body)', () => {
@@ -177,18 +191,6 @@ describe('Ticket Use Case', () => {
       expect(result)
         .excluding(['createdAt', 'updatedAt'])
         .to.deep.equal(updatedItem)
-    })
-  })
-
-  describe('initialLoad()', () => {
-    it('should get Tickets from all status, with limit of 15 each', async () => {
-      const result = await TicketUseCase.initialLoad()
-
-      ticketStatusOptions.forEach((ticketStatus) => {
-        expect(filteredStatusLength(result, ticketStatus)).to.lessThanOrEqual(
-          15,
-        )
-      })
     })
   })
 })
