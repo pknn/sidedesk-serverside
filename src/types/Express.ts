@@ -12,6 +12,7 @@ export interface GetsRequestQuery {
   sort_by?: TicketSortingColumn
   strategy?: TicketSortingStrategy
   status?: TicketStatus
+  each?: number
 }
 
 export type GetsRequestType = Request<{}, {}, {}, GetsRequestQuery>

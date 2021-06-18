@@ -8,13 +8,17 @@ import {
   getBulkMockEntity,
   getMockCreationBody,
   getMockDescription,
+  ticketStatusOptions,
 } from '../../helpers/ticket.mock'
 import { initializeTypeOrm } from '../../../src/applications/typeorm'
 import { Ticket as TicketEntity } from '../../../src/entities/Ticket'
 import * as TicketUseCase from '../../../src/useCases/Ticket'
 import { TicketStatus } from '../../../src/types/TicketStatus'
 import { toEntity } from '../../../src/bodies/Ticket'
-import { getRandomItemAndNeighbor } from '../../helpers/functions'
+import {
+  filteredStatusLength,
+  getRandomItemAndNeighbor,
+} from '../../helpers/functions'
 
 chai.use(chaiExclude)
 
@@ -144,6 +148,20 @@ describe('Ticket Use Case', () => {
         expect(result).to.satisfy((entries: TicketEntity[]) =>
           entries.every((entry) => entry.status === TicketStatus.resolved),
         )
+      })
+    })
+
+    describe('when each option was provided', () => {
+      it('should return Ticket from each status within limit', async () => {
+        const result = await TicketUseCase.getTickets({
+          each: 15,
+        })
+
+        ticketStatusOptions.forEach((ticketStatus) => {
+          expect(filteredStatusLength(result, ticketStatus)).to.lessThanOrEqual(
+            15,
+          )
+        })
       })
     })
   })

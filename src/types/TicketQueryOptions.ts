@@ -12,4 +12,5 @@ export interface TicketQueryOption {
   limit?: number
   sorting?: TicketSortingOption
   status?: TicketStatus
+  each?: number
 }

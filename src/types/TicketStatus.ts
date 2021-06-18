@@ -5,3 +5,10 @@ export enum TicketStatus {
   resolved,
   rejected,
 }
+
+export const ticketStatusOptions: TicketStatus[] = [
+  TicketStatus.pending,
+  TicketStatus.accepted,
+  TicketStatus.resolved,
+  TicketStatus.rejected,
+]
