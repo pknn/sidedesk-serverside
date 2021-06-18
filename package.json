@@ -1,6 +1,6 @@
 {
   "name": "sidedesk-serverside",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Serverside for Sidedesk application",
   "main": "index.ts",
   "repository": "www.github.com/pknn/sidedesk-serverside",
