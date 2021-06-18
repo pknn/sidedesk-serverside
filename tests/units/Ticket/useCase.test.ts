@@ -14,6 +14,7 @@ import { Ticket as TicketEntity } from '../../../src/entities/Ticket'
 import * as TicketUseCase from '../../../src/useCases/Ticket'
 import { TicketStatus } from '../../../src/types/TicketStatus'
 import { toEntity } from '../../../src/bodies/Ticket'
+import { getRandomItemAndNeighbor } from '../../helpers/functions'
 
 chai.use(chaiExclude)
 
@@ -61,12 +62,10 @@ describe('Ticket Use Case', () => {
     })
     describe('when limit option was provided', () => {
       it('should return Tickets with specified limit sorted by ID', async () => {
-        const randomIndex = faker.datatype.number(8)
         const result = await TicketUseCase.getTickets({
           limit: 10,
         })
-        const randomItemA = result[randomIndex] as TicketEntity
-        const randomItemB = result[randomIndex + 1] as TicketEntity
+        const [randomItemA, randomItemB] = getRandomItemAndNeighbor(result)
 
         expect(result).to.have.lengthOf(10)
         expect(randomItemA.id!).to.be.lessThan(randomItemB.id!)
@@ -75,7 +74,6 @@ describe('Ticket Use Case', () => {
     describe('when sorting option was provided', () => {
       describe('when sort with status', () => {
         it('should return Tickets with status ordered descending', async () => {
-          const randomIndex = faker.datatype.number(8)
           const result = await TicketUseCase.getTickets({
             limit: 10,
             sorting: {
@@ -83,15 +81,13 @@ describe('Ticket Use Case', () => {
               strategy: 'DESC',
             },
           })
-          const randomItemA = result[randomIndex] as TicketEntity
-          const randomItemB = result[randomIndex + 1] as TicketEntity
+          const [randomItemA, randomItemB] = getRandomItemAndNeighbor(result)
 
           expect(randomItemA.status).to.be.greaterThanOrEqual(
             randomItemB.status,
           )
         })
         it('should return Tickets with status ordered ascending', async () => {
-          const randomIndex = faker.datatype.number(8)
           const result = await TicketUseCase.getTickets({
             limit: 10,
             sorting: {
@@ -99,8 +95,7 @@ describe('Ticket Use Case', () => {
               strategy: 'ASC',
             },
           })
-          const randomItemA = result[randomIndex] as TicketEntity
-          const randomItemB = result[randomIndex + 1] as TicketEntity
+          const [randomItemA, randomItemB] = getRandomItemAndNeighbor(result)
 
           expect(randomItemA.status).to.be.lessThanOrEqual(randomItemB.status)
         })
@@ -109,7 +104,6 @@ describe('Ticket Use Case', () => {
       describe('when sort with createdAt', () => {
         it('should return Tickets with createdAt ordered', () => {
           it('should return Tickets with createdAt ordered descending', async () => {
-            const randomIndex = faker.datatype.number(8)
             const result = await TicketUseCase.getTickets({
               limit: 10,
               sorting: {
@@ -117,15 +111,13 @@ describe('Ticket Use Case', () => {
                 strategy: 'DESC',
               },
             })
-            const randomItemA = result[randomIndex] as TicketEntity
-            const randomItemB = result[randomIndex + 1] as TicketEntity
+            const [randomItemA, randomItemB] = getRandomItemAndNeighbor(result)
 
             expect(randomItemA.createdAt).to.be.greaterThanOrEqual(
               randomItemB.createdAt,
             )
           })
           it('should return Tickets with createdAt ordered descending', async () => {
-            const randomIndex = faker.datatype.number(8)
             const result = await TicketUseCase.getTickets({
               limit: 10,
               sorting: {
@@ -133,8 +125,7 @@ describe('Ticket Use Case', () => {
                 strategy: 'DESC',
               },
             })
-            const randomItemA = result[randomIndex] as TicketEntity
-            const randomItemB = result[randomIndex + 1] as TicketEntity
+            const [randomItemA, randomItemB] = getRandomItemAndNeighbor(result)
 
             expect(randomItemA.createdAt).to.be.greaterThanOrEqual(
               randomItemB.createdAt,
