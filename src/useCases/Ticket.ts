@@ -4,12 +4,28 @@ import {
   toEntity,
 } from 'app/bodies/Ticket'
 import { Ticket as TicketEntity, toModel } from 'app/entities/Ticket'
+import { toSortingCondition, toWhereCondition } from 'app/helpers/misc'
 import { Ticket } from 'app/models/Ticket'
 import { TicketQueryOption } from 'app/types/TicketQueryOptions'
+import { ticketStatusOptions } from 'app/types/TicketStatus'
 
 export const getTicket = async (id: number): Promise<Ticket> => {
   const ticket = await TicketEntity.findOneOrFail(id)
   return toModel(ticket)
+}
+
+const getEach = async (option: TicketQueryOption): Promise<Ticket[]> => {
+  const promises = ticketStatusOptions.map((ticketStatus) =>
+    TicketEntity.find({
+      where: { status: ticketStatus },
+      order: toSortingCondition(option.sorting),
+      take: option.each,
+      skip: option.offset,
+    }),
+  )
+  const result = (await Promise.all(promises)).flat()
+
+  return result.map(toModel)
 }
 
 export const getTickets = async (
@@ -23,18 +39,21 @@ export const getTickets = async (
       strategy: 'ASC',
     },
     status: overrideOptions.status,
+    each: overrideOptions.each,
   }
 
-  const baseQuery = TicketEntity.createQueryBuilder()
-    .offset(option.offset!)
-    .limit(option.limit)
-    .orderBy(option.sorting!.sortBy!, option.sorting!.strategy)
+  if (option.each) {
+    return getEach(option)
+  }
 
-  const finalQuery = option.status
-    ? await baseQuery.where({ status: option.status }).getMany()
-    : await baseQuery.getMany()
+  const result = await TicketEntity.find({
+    where: toWhereCondition(option.status),
+    order: toSortingCondition(option.sorting),
+    take: option.limit,
+    skip: option.offset,
+  })
 
-  return finalQuery.map(toModel)
+  return result.map(toModel)
 }
 
 export const create = async (
