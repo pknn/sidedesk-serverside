@@ -1,6 +1,6 @@
 import { TicketStatus } from './TicketStatus'
 
-export type TicketSortingColumn = 'status' | 'createdAt'
+export type TicketSortingColumn = 'status' | 'createdAt' | 'id'
 export type TicketSortingStrategy = 'ASC' | 'DESC'
 export interface TicketSortingOption {
   sortBy?: TicketSortingColumn
