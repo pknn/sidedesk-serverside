@@ -60,12 +60,16 @@ describe('Ticket Use Case', () => {
       })
     })
     describe('when limit option was provided', () => {
-      it('should return Tickets with specified limit', async () => {
+      it('should return Tickets with specified limit sorted by ID', async () => {
+        const randomIndex = faker.datatype.number(8)
         const result = await TicketUseCase.getTickets({
           limit: 10,
         })
+        const randomItemA = result[randomIndex] as TicketEntity
+        const randomItemB = result[randomIndex + 1] as TicketEntity
 
         expect(result).to.have.lengthOf(10)
+        expect(randomItemA.id!).to.be.lessThan(randomItemB.id!)
       })
     })
     describe('when sorting option was provided', () => {
