@@ -13,17 +13,17 @@ describe('Version Use Case', () => {
 
     describe('when process.env.VERSION is available', () => {
       before(() => {
-        process.env.VERSION = '12.0.0'
+        process.env.SS_VERSION = '12.0.0'
       })
 
       after(() => {
-        delete process.env.VERSION
+        delete process.env.SS_VERSION
       })
 
       it('should return the Version object with version from env', () => {
         const { version } = VersionUseCase.getVersion()
 
-        expect(version).to.equal(process.env.VERSION)
+        expect(version).to.equal(process.env.SS_VERSION)
       })
     })
 
