@@ -8,4 +8,4 @@ WORKDIR /app
 COPY --from=build-stage dist ./dist
 COPY --from=build-stage package.json .
 RUN yarn --prod
-CMD ls && yarn start
+CMD yarn migration:run && yarn start
