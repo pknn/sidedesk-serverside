@@ -187,6 +187,7 @@ describe('Ticket Use Case', () => {
         description: getMockDescription(),
       }
       const result = await TicketUseCase.update(updatedItem.id!, updatedItem)
+      console.log(updatedItem, result)
 
       expect(result)
         .excluding(['createdAt', 'updatedAt'])

@@ -1,4 +1,5 @@
 import { Ticket } from 'app/entities/Ticket'
+import { TicketStatus } from 'app/types/TicketStatus'
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
 
 export interface TicketCreationJsonBody {
@@ -8,7 +9,13 @@ export interface TicketCreationJsonBody {
   reporter_email?: string
 }
 
-export type TicketUpdateJsonBody = Partial<TicketCreationJsonBody>
+export type TicketUpdateJsonBody = {
+  title?: string
+  description?: string
+  reporter_name?: string
+  reporter_email?: string
+  status?: TicketStatus
+}
 
 export const toEntity = (body: TicketCreationJsonBody): Ticket =>
   new Ticket(
@@ -20,9 +27,13 @@ export const toEntity = (body: TicketCreationJsonBody): Ticket =>
 
 export const toPartialEntity = (
   ticketUpdateBody: TicketUpdateJsonBody,
-): QueryDeepPartialEntity<Ticket> => ({
-  title: ticketUpdateBody.title,
-  description: ticketUpdateBody.description,
-  reporterName: ticketUpdateBody.reporter_name,
-  reporterEmail: ticketUpdateBody.reporter_email,
-})
+): QueryDeepPartialEntity<Ticket> => {
+  const preparedBody = Object.entries({
+    title: ticketUpdateBody.title,
+    description: ticketUpdateBody.description,
+    reporterName: ticketUpdateBody.reporter_name,
+    reporterEmail: ticketUpdateBody.reporter_email,
+    status: ticketUpdateBody.status,
+  })
+  return Object.fromEntries(preparedBody.filter(([_, v]) => !!v))
+}
