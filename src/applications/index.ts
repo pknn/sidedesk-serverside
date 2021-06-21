@@ -1,5 +1,6 @@
 import Express from 'express'
 import Morgan from 'morgan'
+import cors from 'cors'
 
 import { AppRouter } from 'app/routers'
 
@@ -12,6 +13,11 @@ const morganOption = {
 
 export const getExpressApplication = () =>
   Express()
+    .use(
+      cors({
+        origin: ['http://localhost:3000', 'http://localhost'],
+      }),
+    )
     .use(Express.json())
     .use(Morgan(morganLogPreference, morganOption))
     .use('/', AppRouter)
