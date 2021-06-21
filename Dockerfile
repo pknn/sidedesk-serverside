@@ -9,4 +9,4 @@ COPY --from=build-stage dist ./dist
 COPY --from=build-stage package.json .
 COPY --from=build-stage migrations ./migrations
 RUN yarn --prod
-CMD yarn migration:run && yarn start
+CMD yarn migration:run && rm -rf migrations && yarn start
