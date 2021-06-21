@@ -44,7 +44,7 @@ export const create = async (
   const body: TicketCreationJsonBody = request.body
   try {
     const result = await TicketUseCase.create(body)
-    return response.status(201).send(result)
+    return response.status(201).send(toPresenter(result))
   } catch (error) {
     Consola.error(error)
     return response.sendStatus(400)
