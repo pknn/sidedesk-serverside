@@ -2,6 +2,7 @@ import {
   TicketCreationJsonBody,
   TicketUpdateJsonBody,
   toEntity,
+  toPartialEntity,
 } from 'app/bodies/Ticket'
 import { Ticket as TicketEntity, toModel } from 'app/entities/Ticket'
 import { toSortingCondition, toWhereCondition } from 'app/helpers/misc'
@@ -64,6 +65,6 @@ export const update = async (
   id: number,
   ticketUpdateBody: TicketUpdateJsonBody,
 ): Promise<Ticket> => {
-  await TicketEntity.update(id, ticketUpdateBody)
+  await TicketEntity.update(id, toPartialEntity(ticketUpdateBody))
   return getTicket(id)
 }
